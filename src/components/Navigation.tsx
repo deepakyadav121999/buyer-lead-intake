@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
-import { Users, Plus, Upload, Download, LogOut, User, Menu, X, Home, BarChart3, Settings } from 'lucide-react';
+import { Users, Plus, Upload, Download, LogOut, User, Menu, X, Home } from 'lucide-react';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 
@@ -18,8 +18,6 @@ export function Navigation() {
   const navigationItems = [
     { name: 'Dashboard', href: '/', icon: Home },
     { name: 'All Leads', href: '/buyers', icon: Users },
-    { name: 'Analytics', href: '/analytics', icon: BarChart3 },
-    { name: 'Settings', href: '/settings', icon: Settings },
   ];
 
   return (

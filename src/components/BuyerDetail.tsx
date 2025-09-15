@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Edit, History, Save, X } from 'lucide-react';
+import { Edit, History, Save, X, ArrowLeft, User, Phone, Mail, MapPin, Home, Calendar, DollarSign, Clock, Tag, FileText, Activity } from 'lucide-react';
 import { BuyerForm } from './BuyerForm';
 
 interface Buyer {
@@ -28,12 +28,10 @@ interface Buyer {
 
 interface HistoryEntry {
   id: string;
+  buyerId: string;
+  changedBy: string;
   changedAt: string;
   diff: Record<string, { old: any; new: any }>;
-  changedBy: {
-    name: string | null;
-    email: string;
-  };
 }
 
 interface BuyerDetailProps {
@@ -44,43 +42,6 @@ interface BuyerDetailProps {
 export function BuyerDetail({ buyer, history }: BuyerDetailProps) {
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [concurrencyError, setConcurrencyError] = useState('');
-
-  const handleSave = async (data: any) => {
-    setIsSaving(true);
-    setConcurrencyError('');
-    
-    try {
-      const response = await fetch(`/api/buyers/${buyer.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...data,
-          updatedAt: buyer.updatedAt, // Include for concurrency check
-        }),
-      });
-
-      if (response.ok) {
-        setIsEditing(false);
-        router.refresh(); // Refresh the page to get updated data
-      } else {
-        const error = await response.json();
-        if (error.message === 'Concurrency conflict') {
-          setConcurrencyError('Record has been changed by another user. Please refresh and try again.');
-        } else {
-          alert(error.message || 'An error occurred');
-        }
-      }
-    } catch (error) {
-      console.error('Error saving buyer:', error);
-      alert('An error occurred');
-    } finally {
-      setIsSaving(false);
-    }
-  };
 
   const formatBudget = (min: number | null, max: number | null) => {
     if (!min && !max) return 'Not specified';
@@ -104,198 +65,270 @@ export function BuyerDetail({ buyer, history }: BuyerDetailProps) {
 
   if (isEditing) {
     return (
-      <div className="space-y-6">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900">Edit Lead</h1>
-          <button
-            onClick={() => setIsEditing(false)}
-            className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            <X className="h-4 w-4 mr-2" />
-            Cancel
-          </button>
-        </div>
-
-        {concurrencyError && (
-          <div className="bg-red-50 border border-red-200 rounded-md p-4">
-            <div className="flex">
-              <div className="ml-3">
-                <h3 className="text-sm font-medium text-red-800">
-                  Concurrency Conflict
-                </h3>
-                <div className="mt-2 text-sm text-red-700">
-                  {concurrencyError}
-                </div>
-                <div className="mt-4">
-                  <button
-                    onClick={() => router.refresh()}
-                    className="bg-red-100 px-3 py-2 rounded-md text-sm font-medium text-red-800 hover:bg-red-200"
-                  >
-                    Refresh Page
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        <BuyerForm
-          initialData={{
-            id: buyer.id,
-            fullName: buyer.fullName,
-            email: buyer.email || '',
-            phone: buyer.phone,
-            city: buyer.city as any,
-            propertyType: buyer.propertyType as any,
-            bhk: buyer.bhk as any,
-            purpose: buyer.purpose as any,
-            budgetMin: buyer.budgetMin || undefined,
-            budgetMax: buyer.budgetMax || undefined,
-            timeline: buyer.timeline as any,
-            source: buyer.source as any,
-            notes: buyer.notes || '',
-            tags: buyer.tags || [],
-          }}
-          isEdit={true}
-        />
-      </div>
+      <BuyerForm 
+        initialData={buyer} 
+        isEdit={true} 
+      />
     );
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">{buyer.fullName}</h1>
-          <p className="mt-1 text-sm text-gray-600">
-            Created {new Date(buyer.createdAt).toLocaleDateString()} • 
-            Last updated {new Date(buyer.updatedAt).toLocaleDateString()}
-          </p>
-        </div>
-        <button
-          onClick={() => setIsEditing(true)}
-          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          <Edit className="h-4 w-4 mr-2" />
-          Edit Lead
-        </button>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Main Details */}
-        <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white shadow rounded-lg p-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-4">Contact Information</h2>
-            <dl className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
-              <div>
-                <dt className="text-sm font-medium text-gray-500">Full Name</dt>
-                <dd className="mt-1 text-sm text-gray-900">{buyer.fullName}</dd>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+      <div className="max-w-6xl mx-auto p-4 lg:p-8">
+        {/* Header */}
+        <div className="mb-8">
+          <button
+            onClick={() => router.back()}
+            className="inline-flex items-center space-x-2 text-gray-600 hover:text-indigo-600 transition-colors duration-200 mb-6 group"
+          >
+            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-200" />
+            <span className="font-medium">Back to Leads</span>
+          </button>
+          
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex items-center space-x-4 mb-4 lg:mb-0">
+              <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl flex items-center justify-center text-white font-bold text-2xl">
+                {buyer.fullName.charAt(0).toUpperCase()}
               </div>
               <div>
-                <dt className="text-sm font-medium text-gray-500">Phone</dt>
-                <dd className="mt-1 text-sm text-gray-900">{buyer.phone}</dd>
-              </div>
-              <div>
-                <dt className="text-sm font-medium text-gray-500">Email</dt>
-                <dd className="mt-1 text-sm text-gray-900">{buyer.email || 'Not provided'}</dd>
-              </div>
-              <div>
-                <dt className="text-sm font-medium text-gray-500">City</dt>
-                <dd className="mt-1 text-sm text-gray-900">{buyer.city}</dd>
-              </div>
-            </dl>
-          </div>
-
-          <div className="bg-white shadow rounded-lg p-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-4">Property Requirements</h2>
-            <dl className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
-              <div>
-                <dt className="text-sm font-medium text-gray-500">Property Type</dt>
-                <dd className="mt-1 text-sm text-gray-900">
-                  {buyer.propertyType}
-                  {buyer.bhk && ` (${buyer.bhk} BHK)`}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-sm font-medium text-gray-500">Purpose</dt>
-                <dd className="mt-1 text-sm text-gray-900">{buyer.purpose}</dd>
-              </div>
-              <div>
-                <dt className="text-sm font-medium text-gray-500">Budget</dt>
-                <dd className="mt-1 text-sm text-gray-900">{formatBudget(buyer.budgetMin, buyer.budgetMax)}</dd>
-              </div>
-              <div>
-                <dt className="text-sm font-medium text-gray-500">Timeline</dt>
-                <dd className="mt-1 text-sm text-gray-900">{buyer.timeline}</dd>
-              </div>
-              <div>
-                <dt className="text-sm font-medium text-gray-500">Source</dt>
-                <dd className="mt-1 text-sm text-gray-900">{buyer.source}</dd>
-              </div>
-              <div>
-                <dt className="text-sm font-medium text-gray-500">Status</dt>
-                <dd className="mt-1">
-                  <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(buyer.status)}`}>
-                    {buyer.status}
-                  </span>
-                </dd>
-              </div>
-            </dl>
-          </div>
-
-          {buyer.notes && (
-            <div className="bg-white shadow rounded-lg p-6">
-              <h2 className="text-lg font-medium text-gray-900 mb-4">Notes</h2>
-              <p className="text-sm text-gray-900 whitespace-pre-wrap">{buyer.notes}</p>
-            </div>
-          )}
-
-          {buyer.tags && buyer.tags.length > 0 && (
-            <div className="bg-white shadow rounded-lg p-6">
-              <h2 className="text-lg font-medium text-gray-900 mb-4">Tags</h2>
-              <div className="flex flex-wrap gap-2">
-                {buyer.tags.map((tag, index) => (
-                  <span
-                    key={index}
-                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800"
-                  >
-                    {tag}
-                  </span>
-                ))}
+                <h1 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                  {buyer.fullName}
+                </h1>
+                <p className="text-lg text-gray-600">Lead Details</p>
               </div>
             </div>
-          )}
+            
+            <div className="flex space-x-3">
+              <span className={`px-4 py-2 text-sm font-semibold rounded-xl ${getStatusColor(buyer.status)}`}>
+                {buyer.status}
+              </span>
+              <button
+                onClick={() => setIsEditing(true)}
+                className="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center space-x-2"
+              >
+                <Edit className="w-4 h-4" />
+                <span>Edit Lead</span>
+              </button>
+            </div>
+          </div>
         </div>
 
-        {/* History Sidebar */}
-        <div className="space-y-6">
-          <div className="bg-white shadow rounded-lg p-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-4 flex items-center">
-              <History className="h-5 w-5 mr-2" />
-              Recent Changes
-            </h2>
-            <div className="space-y-4">
-              {history.length === 0 ? (
-                <p className="text-sm text-gray-500">No changes recorded</p>
-              ) : (
-                history.map((entry) => (
-                  <div key={entry.id} className="border-l-4 border-gray-200 pl-4">
-                    <div className="text-sm text-gray-900">
-                      {Object.entries(entry.diff).map(([field, change]) => (
-                        <div key={field} className="mb-1">
-                          <span className="font-medium">{field}:</span>{' '}
-                          <span className="text-gray-600">
-                            {change.old ? `"${change.old}"` : 'null'} → {change.new ? `"${change.new}"` : 'null'}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="text-xs text-gray-500 mt-1">
-                      {new Date(entry.changedAt).toLocaleString()} by {entry.changedBy.name || entry.changedBy.email}
-                    </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-8">
+            {/* Personal Information */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center">
+                  <User className="w-5 h-5 text-white" />
+                </div>
+                <h2 className="text-2xl font-bold text-gray-900">Personal Information</h2>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="flex items-center space-x-2 text-sm font-semibold text-gray-600">
+                    <User className="w-4 h-4" />
+                    <span>Full Name</span>
+                  </label>
+                  <p className="text-lg font-medium text-gray-900">{buyer.fullName}</p>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="flex items-center space-x-2 text-sm font-semibold text-gray-600">
+                    <Phone className="w-4 h-4" />
+                    <span>Phone Number</span>
+                  </label>
+                  <p className="text-lg font-medium text-gray-900">{buyer.phone}</p>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="flex items-center space-x-2 text-sm font-semibold text-gray-600">
+                    <Mail className="w-4 h-4" />
+                    <span>Email Address</span>
+                  </label>
+                  <p className="text-lg font-medium text-gray-900">{buyer.email || 'Not provided'}</p>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="flex items-center space-x-2 text-sm font-semibold text-gray-600">
+                    <MapPin className="w-4 h-4" />
+                    <span>City</span>
+                  </label>
+                  <p className="text-lg font-medium text-gray-900">{buyer.city}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Property Information */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center">
+                  <Home className="w-5 h-5 text-white" />
+                </div>
+                <h2 className="text-2xl font-bold text-gray-900">Property Information</h2>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="flex items-center space-x-2 text-sm font-semibold text-gray-600">
+                    <Home className="w-4 h-4" />
+                    <span>Property Type</span>
+                  </label>
+                  <p className="text-lg font-medium text-gray-900">
+                    {buyer.propertyType}
+                    {buyer.bhk && (
+                      <span className="ml-2 px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
+                        {buyer.bhk} BHK
+                      </span>
+                    )}
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="flex items-center space-x-2 text-sm font-semibold text-gray-600">
+                    <Calendar className="w-4 h-4" />
+                    <span>Purpose</span>
+                  </label>
+                  <p className="text-lg font-medium text-gray-900">{buyer.purpose}</p>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="flex items-center space-x-2 text-sm font-semibold text-gray-600">
+                    <Clock className="w-4 h-4" />
+                    <span>Timeline</span>
+                  </label>
+                  <p className="text-lg font-medium text-gray-900">{buyer.timeline}</p>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="flex items-center space-x-2 text-sm font-semibold text-gray-600">
+                    <Tag className="w-4 h-4" />
+                    <span>Source</span>
+                  </label>
+                  <p className="text-lg font-medium text-gray-900">{buyer.source}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Budget Information */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="w-10 h-10 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center">
+                  <DollarSign className="w-5 h-5 text-white" />
+                </div>
+                <h2 className="text-2xl font-bold text-gray-900">Budget Information</h2>
+              </div>
+              
+              <div className="text-center">
+                <p className="text-3xl font-bold text-gray-900 mb-2">
+                  {formatBudget(buyer.budgetMin, buyer.budgetMax)}
+                </p>
+                <p className="text-gray-600">Budget Range</p>
+              </div>
+            </div>
+
+            {/* Additional Information */}
+            {(buyer.notes || buyer.tags?.length) && (
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                    <FileText className="w-5 h-5 text-white" />
                   </div>
-                ))
-              )}
+                  <h2 className="text-2xl font-bold text-gray-900">Additional Information</h2>
+                </div>
+                
+                <div className="space-y-6">
+                  {buyer.tags && buyer.tags.length > 0 && (
+                    <div className="space-y-3">
+                      <label className="flex items-center space-x-2 text-sm font-semibold text-gray-600">
+                        <Tag className="w-4 h-4" />
+                        <span>Tags</span>
+                      </label>
+                      <div className="flex flex-wrap gap-2">
+                        {buyer.tags.map((tag, index) => (
+                          <span
+                            key={index}
+                            className="px-3 py-1 bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-800 rounded-full text-sm font-medium"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {buyer.notes && (
+                    <div className="space-y-3">
+                      <label className="flex items-center space-x-2 text-sm font-semibold text-gray-600">
+                        <FileText className="w-4 h-4" />
+                        <span>Notes</span>
+                      </label>
+                      <div className="bg-gray-50 rounded-xl p-4">
+                        <p className="text-gray-900 whitespace-pre-wrap">{buyer.notes}</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Sidebar */}
+          <div className="space-y-8">
+            {/* Timeline */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
+                  <Activity className="w-5 h-5 text-white" />
+                </div>
+                <h2 className="text-xl font-bold text-gray-900">Activity Timeline</h2>
+              </div>
+              
+              <div className="space-y-4">
+                <div className="flex items-start space-x-3">
+                  <div className="w-3 h-3 bg-green-400 rounded-full mt-2"></div>
+                  <div>
+                    <p className="font-medium text-gray-900">Lead Created</p>
+                    <p className="text-sm text-gray-500">
+                      {new Date(buyer.createdAt).toLocaleDateString()} at {new Date(buyer.createdAt).toLocaleTimeString()}
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start space-x-3">
+                  <div className="w-3 h-3 bg-blue-400 rounded-full mt-2"></div>
+                  <div>
+                    <p className="font-medium text-gray-900">Last Updated</p>
+                    <p className="text-sm text-gray-500">
+                      {new Date(buyer.updatedAt).toLocaleDateString()} at {new Date(buyer.updatedAt).toLocaleTimeString()}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Actions */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
+              <h2 className="text-xl font-bold text-gray-900 mb-6">Quick Actions</h2>
+              
+              <div className="space-y-3">
+                <button
+                  onClick={() => setIsEditing(true)}
+                  className="w-full px-4 py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl hover:from-indigo-600 hover:to-purple-600 transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center space-x-2"
+                >
+                  <Edit className="w-4 h-4" />
+                  <span>Edit Lead</span>
+                </button>
+                
+                <button
+                  onClick={() => router.back()}
+                  className="w-full px-4 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-all duration-200 flex items-center justify-center space-x-2"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  <span>Back to Leads</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -303,4 +336,3 @@ export function BuyerDetail({ buyer, history }: BuyerDetailProps) {
     </div>
   );
 }
-
