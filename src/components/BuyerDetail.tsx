@@ -96,22 +96,22 @@ export function BuyerDetail({ buyer, history }: BuyerDetailProps) {
                 </h1>
                 <p className="text-lg text-gray-600">Lead Details</p>
               </div>
-            </div>
-            
+        </div>
+
             <div className="flex space-x-3">
               <span className={`px-4 py-2 text-sm font-semibold rounded-xl ${getStatusColor(buyer.status)}`}>
                 {buyer.status}
               </span>
-              <button
+                  <button
                 onClick={() => setIsEditing(true)}
                 className="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center space-x-2"
-              >
+                  >
                 <Edit className="w-4 h-4" />
                 <span>Edit Lead</span>
-              </button>
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
@@ -123,7 +123,7 @@ export function BuyerDetail({ buyer, history }: BuyerDetailProps) {
                   <User className="w-5 h-5 text-white" />
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900">Personal Information</h2>
-              </div>
+          </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
@@ -132,7 +132,7 @@ export function BuyerDetail({ buyer, history }: BuyerDetailProps) {
                     <span>Full Name</span>
                   </label>
                   <p className="text-lg font-medium text-gray-900">{buyer.fullName}</p>
-                </div>
+      </div>
 
                 <div className="space-y-2">
                   <label className="flex items-center space-x-2 text-sm font-semibold text-gray-600">
@@ -140,7 +140,7 @@ export function BuyerDetail({ buyer, history }: BuyerDetailProps) {
                     <span>Phone Number</span>
                   </label>
                   <p className="text-lg font-medium text-gray-900">{buyer.phone}</p>
-                </div>
+        </div>
 
                 <div className="space-y-2">
                   <label className="flex items-center space-x-2 text-sm font-semibold text-gray-600">
@@ -148,7 +148,7 @@ export function BuyerDetail({ buyer, history }: BuyerDetailProps) {
                     <span>Email Address</span>
                   </label>
                   <p className="text-lg font-medium text-gray-900">{buyer.email || 'Not provided'}</p>
-                </div>
+      </div>
 
                 <div className="space-y-2">
                   <label className="flex items-center space-x-2 text-sm font-semibold text-gray-600">
@@ -156,19 +156,19 @@ export function BuyerDetail({ buyer, history }: BuyerDetailProps) {
                     <span>City</span>
                   </label>
                   <p className="text-lg font-medium text-gray-900">{buyer.city}</p>
-                </div>
               </div>
-            </div>
+              </div>
+              </div>
 
             {/* Property Information */}
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
               <div className="flex items-center space-x-3 mb-6">
                 <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center">
                   <Home className="w-5 h-5 text-white" />
-                </div>
-                <h2 className="text-2xl font-bold text-gray-900">Property Information</h2>
               </div>
-              
+                <h2 className="text-2xl font-bold text-gray-900">Property Information</h2>
+          </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="flex items-center space-x-2 text-sm font-semibold text-gray-600">
@@ -176,7 +176,7 @@ export function BuyerDetail({ buyer, history }: BuyerDetailProps) {
                     <span>Property Type</span>
                   </label>
                   <p className="text-lg font-medium text-gray-900">
-                    {buyer.propertyType}
+                  {buyer.propertyType}
                     {buyer.bhk && (
                       <span className="ml-2 px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
                         {buyer.bhk} BHK
@@ -207,16 +207,16 @@ export function BuyerDetail({ buyer, history }: BuyerDetailProps) {
                     <span>Source</span>
                   </label>
                   <p className="text-lg font-medium text-gray-900">{buyer.source}</p>
-                </div>
               </div>
-            </div>
+              </div>
+              </div>
 
             {/* Budget Information */}
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
               <div className="flex items-center space-x-3 mb-6">
                 <div className="w-10 h-10 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center">
                   <DollarSign className="w-5 h-5 text-white" />
-                </div>
+              </div>
                 <h2 className="text-2xl font-bold text-gray-900">Budget Information</h2>
               </div>
               
@@ -226,7 +226,7 @@ export function BuyerDetail({ buyer, history }: BuyerDetailProps) {
                 </p>
                 <p className="text-gray-600">Budget Range</p>
               </div>
-            </div>
+          </div>
 
             {/* Additional Information */}
             {(buyer.notes || buyer.tags?.length) && (
@@ -236,27 +236,27 @@ export function BuyerDetail({ buyer, history }: BuyerDetailProps) {
                     <FileText className="w-5 h-5 text-white" />
                   </div>
                   <h2 className="text-2xl font-bold text-gray-900">Additional Information</h2>
-                </div>
-                
+            </div>
+
                 <div className="space-y-6">
-                  {buyer.tags && buyer.tags.length > 0 && (
+          {buyer.tags && buyer.tags.length > 0 && (
                     <div className="space-y-3">
                       <label className="flex items-center space-x-2 text-sm font-semibold text-gray-600">
                         <Tag className="w-4 h-4" />
                         <span>Tags</span>
                       </label>
-                      <div className="flex flex-wrap gap-2">
-                        {buyer.tags.map((tag, index) => (
-                          <span
-                            key={index}
+              <div className="flex flex-wrap gap-2">
+                {buyer.tags.map((tag, index) => (
+                  <span
+                    key={index}
                             className="px-3 py-1 bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-800 rounded-full text-sm font-medium"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
 
                   {buyer.notes && (
                     <div className="space-y-3">
@@ -283,9 +283,9 @@ export function BuyerDetail({ buyer, history }: BuyerDetailProps) {
                   <Activity className="w-5 h-5 text-white" />
                 </div>
                 <h2 className="text-xl font-bold text-gray-900">Activity Timeline</h2>
-              </div>
-              
-              <div className="space-y-4">
+        </div>
+
+            <div className="space-y-4">
                 <div className="flex items-start space-x-3">
                   <div className="w-3 h-3 bg-green-400 rounded-full mt-2"></div>
                   <div>
@@ -303,10 +303,10 @@ export function BuyerDetail({ buyer, history }: BuyerDetailProps) {
                     <p className="text-sm text-gray-500">
                       {new Date(buyer.updatedAt).toLocaleDateString()} at {new Date(buyer.updatedAt).toLocaleTimeString()}
                     </p>
+                        </div>
+                    </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </div>
 
             {/* Quick Actions */}
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">

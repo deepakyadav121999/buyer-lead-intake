@@ -109,8 +109,8 @@ export function Navigation() {
 
       {/* Desktop navigation */}
       <nav className="hidden lg:block bg-white shadow-lg border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16">
             <div className="flex items-center">
               <Link href="/" className="flex items-center space-x-3">
                 <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
@@ -118,7 +118,7 @@ export function Navigation() {
                 </div>
                 <div>
                   <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                    Buyer Leads
+                Buyer Leads
                   </span>
                   <p className="text-xs text-gray-500 -mt-1">Lead Management System</p>
                 </div>
@@ -127,7 +127,7 @@ export function Navigation() {
 
             <div className="flex items-center space-x-1">
               {navigationItems.map((item) => (
-                <Link
+              <Link
                   key={item.name}
                   href={item.href}
                   className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 group ${
@@ -138,7 +138,7 @@ export function Navigation() {
                 >
                   <item.icon className="w-4 h-4 group-hover:scale-110 transition-transform" />
                   <span>{item.name}</span>
-                </Link>
+              </Link>
               ))}
             </div>
 
@@ -159,20 +159,20 @@ export function Navigation() {
                   <div>
                     <p className="text-sm font-medium text-gray-900">{session.user?.name || session.user?.email}</p>
                     <p className="text-xs text-gray-500">Admin</p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => signOut()}
+            </div>
+          </div>
+              <button
+                onClick={() => signOut()}
                   className="text-gray-700 hover:text-red-600 px-3 py-2 rounded-lg text-sm font-medium flex items-center space-x-2 hover:bg-red-50 transition-all duration-200"
-                >
+              >
                   <LogOut className="w-4 h-4" />
                   <span>Sign Out</span>
-                </button>
-              </div>
+              </button>
             </div>
           </div>
         </div>
-      </nav>
+      </div>
+    </nav>
 
       {/* Mobile header */}
       <div className="lg:hidden bg-white shadow-sm border-b border-gray-200">

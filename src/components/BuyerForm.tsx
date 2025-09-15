@@ -136,13 +136,13 @@ export function BuyerForm({ initialData, isEdit = false }: BuyerFormProps) {
                   <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700">
                     <User className="w-4 h-4" />
                     <span>Full Name *</span>
-                  </label>
-                  <input
-                    {...register('fullName')}
+            </label>
+            <input
+              {...register('fullName')}
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white/50 backdrop-blur-sm transition-all duration-200"
-                    placeholder="Enter full name"
-                  />
-                  {errors.fullName && (
+              placeholder="Enter full name"
+            />
+            {errors.fullName && (
                     <p className="text-red-500 text-sm">{errors.fullName.message}</p>
                   )}
                 </div>
@@ -159,41 +159,41 @@ export function BuyerForm({ initialData, isEdit = false }: BuyerFormProps) {
                   />
                   {errors.phone && (
                     <p className="text-red-500 text-sm">{errors.phone.message}</p>
-                  )}
-                </div>
+            )}
+          </div>
 
                 <div className="space-y-2">
                   <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700">
                     <Mail className="w-4 h-4" />
                     <span>Email Address</span>
-                  </label>
-                  <input
-                    {...register('email')}
-                    type="email"
+            </label>
+            <input
+              {...register('email')}
+              type="email"
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white/50 backdrop-blur-sm transition-all duration-200"
-                    placeholder="Enter email address"
-                  />
-                  {errors.email && (
+              placeholder="Enter email address"
+            />
+            {errors.email && (
                     <p className="text-red-500 text-sm">{errors.email.message}</p>
-                  )}
-                </div>
+            )}
+          </div>
 
                 <div className="space-y-2">
                   <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700">
                     <MapPin className="w-4 h-4" />
                     <span>City *</span>
-                  </label>
-                  <select
-                    {...register('city')}
+            </label>
+            <select
+              {...register('city')}
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white/50 backdrop-blur-sm transition-all duration-200"
-                  >
-                    <option value="Chandigarh">Chandigarh</option>
-                    <option value="Mohali">Mohali</option>
-                    <option value="Zirakpur">Zirakpur</option>
-                    <option value="Panchkula">Panchkula</option>
-                    <option value="Other">Other</option>
-                  </select>
-                  {errors.city && (
+            >
+              <option value="Chandigarh">Chandigarh</option>
+              <option value="Mohali">Mohali</option>
+              <option value="Zirakpur">Zirakpur</option>
+              <option value="Panchkula">Panchkula</option>
+              <option value="Other">Other</option>
+            </select>
+            {errors.city && (
                     <p className="text-red-500 text-sm">{errors.city.message}</p>
                   )}
                 </div>
@@ -207,67 +207,67 @@ export function BuyerForm({ initialData, isEdit = false }: BuyerFormProps) {
                   <Home className="w-5 h-5 text-white" />
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900">Property Information</h2>
-              </div>
-              
+          </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700">
                     <Home className="w-4 h-4" />
                     <span>Property Type *</span>
-                  </label>
-                  <select
-                    {...register('propertyType')}
+            </label>
+            <select
+              {...register('propertyType')}
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white/50 backdrop-blur-sm transition-all duration-200"
-                  >
-                    <option value="Apartment">Apartment</option>
-                    <option value="Villa">Villa</option>
-                    <option value="Plot">Plot</option>
-                    <option value="Office">Office</option>
-                    <option value="Retail">Retail</option>
-                  </select>
-                  {errors.propertyType && (
+            >
+              <option value="Apartment">Apartment</option>
+              <option value="Villa">Villa</option>
+              <option value="Plot">Plot</option>
+              <option value="Office">Office</option>
+              <option value="Retail">Retail</option>
+            </select>
+            {errors.propertyType && (
                     <p className="text-red-500 text-sm">{errors.propertyType.message}</p>
-                  )}
-                </div>
+            )}
+          </div>
 
                 {(propertyType === 'Apartment' || propertyType === 'Villa') && (
                   <div className="space-y-2">
                     <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700">
                       <Home className="w-4 h-4" />
                       <span>BHK *</span>
-                    </label>
-                    <select
-                      {...register('bhk')}
+              </label>
+              <select
+                {...register('bhk')}
                       className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white/50 backdrop-blur-sm transition-all duration-200"
-                    >
-                      <option value="1">1 BHK</option>
-                      <option value="2">2 BHK</option>
-                      <option value="3">3 BHK</option>
-                      <option value="4">4 BHK</option>
-                      <option value="Studio">Studio</option>
-                    </select>
-                    {errors.bhk && (
+              >
+                <option value="1">1 BHK</option>
+                <option value="2">2 BHK</option>
+                <option value="3">3 BHK</option>
+                <option value="4">4 BHK</option>
+                <option value="Studio">Studio</option>
+              </select>
+              {errors.bhk && (
                       <p className="text-red-500 text-sm">{errors.bhk.message}</p>
-                    )}
-                  </div>
-                )}
+              )}
+            </div>
+          )}
 
                 <div className="space-y-2">
                   <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700">
                     <Calendar className="w-4 h-4" />
                     <span>Purpose *</span>
-                  </label>
-                  <select
-                    {...register('purpose')}
+            </label>
+            <select
+              {...register('purpose')}
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white/50 backdrop-blur-sm transition-all duration-200"
-                  >
-                    <option value="Buy">Buy</option>
-                    <option value="Rent">Rent</option>
-                  </select>
-                  {errors.purpose && (
+            >
+              <option value="Buy">Buy</option>
+              <option value="Rent">Rent</option>
+            </select>
+            {errors.purpose && (
                     <p className="text-red-500 text-sm">{errors.purpose.message}</p>
-                  )}
-                </div>
+            )}
+          </div>
 
                 <div className="space-y-2">
                   <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700">
@@ -304,35 +304,35 @@ export function BuyerForm({ initialData, isEdit = false }: BuyerFormProps) {
                   <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700">
                     <DollarSign className="w-4 h-4" />
                     <span>Minimum Budget (₹)</span>
-                  </label>
-                  <input
-                    {...register('budgetMin', { valueAsNumber: true })}
-                    type="number"
+            </label>
+            <input
+              {...register('budgetMin', { valueAsNumber: true })}
+              type="number"
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white/50 backdrop-blur-sm transition-all duration-200"
-                    placeholder="Enter minimum budget"
-                  />
-                  {errors.budgetMin && (
+              placeholder="Enter minimum budget"
+            />
+            {errors.budgetMin && (
                     <p className="text-red-500 text-sm">{errors.budgetMin.message}</p>
-                  )}
-                </div>
+            )}
+          </div>
 
                 <div className="space-y-2">
                   <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700">
                     <DollarSign className="w-4 h-4" />
                     <span>Maximum Budget (₹)</span>
-                  </label>
-                  <input
-                    {...register('budgetMax', { valueAsNumber: true })}
-                    type="number"
+            </label>
+            <input
+              {...register('budgetMax', { valueAsNumber: true })}
+              type="number"
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white/50 backdrop-blur-sm transition-all duration-200"
-                    placeholder="Enter maximum budget"
-                  />
-                  {errors.budgetMax && (
+              placeholder="Enter maximum budget"
+            />
+            {errors.budgetMax && (
                     <p className="text-red-500 text-sm">{errors.budgetMax.message}</p>
-                  )}
+            )}
                 </div>
               </div>
-            </div>
+          </div>
 
             {/* Additional Information */}
             <div className="space-y-6">
@@ -341,34 +341,34 @@ export function BuyerForm({ initialData, isEdit = false }: BuyerFormProps) {
                   <FileText className="w-5 h-5 text-white" />
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900">Additional Information</h2>
-              </div>
-              
+          </div>
+
               <div className="space-y-6">
                 <div className="space-y-2">
                   <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700">
                     <Tag className="w-4 h-4" />
                     <span>Source *</span>
-                  </label>
-                  <select
-                    {...register('source')}
+            </label>
+            <select
+              {...register('source')}
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white/50 backdrop-blur-sm transition-all duration-200"
-                  >
-                    <option value="Website">Website</option>
-                    <option value="Referral">Referral</option>
-                    <option value="Walk-in">Walk-in</option>
-                    <option value="Call">Call</option>
-                    <option value="Other">Other</option>
-                  </select>
-                  {errors.source && (
+            >
+              <option value="Website">Website</option>
+              <option value="Referral">Referral</option>
+              <option value="Walk-in">Walk-in</option>
+              <option value="Call">Call</option>
+              <option value="Other">Other</option>
+            </select>
+            {errors.source && (
                     <p className="text-red-500 text-sm">{errors.source.message}</p>
-                  )}
-                </div>
+            )}
+          </div>
 
                 <div className="space-y-2">
                   <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700">
                     <Tag className="w-4 h-4" />
                     <span>Tags</span>
-                  </label>
+            </label>
                   <div className="space-y-3">
                     <div className="flex space-x-2">
                       <input
@@ -386,25 +386,25 @@ export function BuyerForm({ initialData, isEdit = false }: BuyerFormProps) {
                       >
                         <Plus className="w-5 h-5" />
                       </button>
-                    </div>
+          </div>
                     {tags.length > 0 && (
                       <div className="flex flex-wrap gap-2">
-                        {tags.map((tag, index) => (
-                          <span
-                            key={index}
+              {tags.map((tag, index) => (
+                <span
+                  key={index}
                             className="inline-flex items-center space-x-2 px-3 py-1 bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-800 rounded-full text-sm"
-                          >
+                >
                             <span>{tag}</span>
-                            <button
-                              type="button"
-                              onClick={() => removeTag(tag)}
+                  <button
+                    type="button"
+                    onClick={() => removeTag(tag)}
                               className="text-indigo-600 hover:text-red-600 transition-colors"
-                            >
-                              <X className="w-3 h-3" />
-                            </button>
-                          </span>
-                        ))}
-                      </div>
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </span>
+              ))}
+            </div>
                     )}
                   </div>
                 </div>
@@ -423,22 +423,22 @@ export function BuyerForm({ initialData, isEdit = false }: BuyerFormProps) {
                   {errors.notes && (
                     <p className="text-red-500 text-sm">{errors.notes.message}</p>
                   )}
-                </div>
-              </div>
-            </div>
+          </div>
+        </div>
+      </div>
 
             {/* Submit Button */}
             <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
-              <button
-                type="button"
+        <button
+          type="button"
                 onClick={() => router.back()}
                 className="px-8 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-all duration-200 font-medium"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                disabled={isSubmitting}
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          disabled={isSubmitting}
                 className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
               >
                 {isSubmitting ? (
@@ -452,9 +452,9 @@ export function BuyerForm({ initialData, isEdit = false }: BuyerFormProps) {
                     <span>{isEdit ? 'Update Lead' : 'Create Lead'}</span>
                   </>
                 )}
-              </button>
-            </div>
-          </form>
+        </button>
+      </div>
+    </form>
         </div>
       </div>
     </div>

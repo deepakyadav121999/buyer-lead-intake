@@ -13,27 +13,27 @@ Hey there! 👋 This is a modern web app for managing property buyer leads. Thin
 ## 🚀 Quick Start (Get it running in 5 minutes!)
 
 ### Step 1: Get the code
-```bash
+   ```bash
 git clone <your-repo-url>
-cd buyer-lead-intake
-```
+   cd buyer-lead-intake
+   ```
 
 ### Step 2: Install dependencies
-```bash
-npm install
-```
+   ```bash
+   npm install
+   ```
 
 ### Step 3: Set up your environment
 Create a `.env.local` file in the root folder and add these:
 
-```bash
+   ```bash
 # Database - You'll need a PostgreSQL database
 DATABASE_URL="postgresql://username:password@localhost:5432/buyer_leads"
 
 # Authentication secrets - Generate a random string for security
 NEXTAUTH_SECRET="your-super-secret-key-here"
-NEXTAUTH_URL="http://localhost:3000"
-```
+   NEXTAUTH_URL="http://localhost:3000"
+   ```
 
 **Need help with the database?** 
 - Install PostgreSQL locally, OR
@@ -47,18 +47,18 @@ openssl rand -base64 32
 ```
 
 ### Step 4: Set up the database
-```bash
-# Generate migration files
-npm run db:generate
-
+   ```bash
+   # Generate migration files
+   npm run db:generate
+   
 # Apply migrations to create tables
-npm run db:push
-```
+   npm run db:push
+   ```
 
 ### Step 5: Start the app
-```bash
-npm run dev
-```
+   ```bash
+   npm run dev
+   ```
 
 Visit `http://localhost:3000` and you're ready to go! 🎉
 
